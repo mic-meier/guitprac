@@ -10,6 +10,6 @@ const server = new ApolloServer({
 
 const app = express();
 
-server.applyMiddleware({ app });
+server.applyMiddleware({ app, path: '/api' });
 
 export default app;
