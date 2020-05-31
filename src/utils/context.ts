@@ -1,14 +1,20 @@
 import tokenUtil from './token';
 import User from '../models/user';
+import { parseString } from './typeguards';
+import { IncomingMessage } from 'http';
 
 const TOKEN_HEADER_NAME = 'x-token';
 
-const getUser = async (req: Request): Promise<unknown | null> => {
+type Req = { req: IncomingMessage };
+
+const getUser = async (req: Req): Promise<unknown | null> => {
   if (!req) {
     return null;
   }
 
-  const tokenHeader: string = req.get(TOKEN_HEADER_NAME);
+  const tokenHeader: string = req.get(
+    parseString(TOKEN_HEADER_NAME, 'TOKEN_HEADER_NAME'),
+  );
 
   if (!tokenHeader) {
     return null;

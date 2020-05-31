@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 import { UserType } from '../types';
 
 const userSchema = new mongoose.Schema(
@@ -11,9 +12,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     hashedPassword: {
       type: String,
@@ -31,6 +38,8 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+userSchema.plugin(uniqueValidator);
 
 const User = mongoose.model<UserType>('User', userSchema);
 

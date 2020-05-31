@@ -8,8 +8,10 @@ import {
   InputType,
   Mutation,
 } from 'type-graphql';
+import bcrypt from 'bcrypt';
 import userService from '../services/user-service';
-import { UserType } from 'src/types';
+import { UserType } from '../types';
+import { UserInputError } from 'apollo-server-express';
 
 @ObjectType()
 class User {
@@ -21,6 +23,9 @@ class User {
 
   @Field()
   lastName: string;
+
+  @Field()
+  username: string;
 
   @Field()
   enail: string;
@@ -47,7 +52,19 @@ class NewUserInput {
   lastName: string;
 
   @Field()
+  username: string;
+
+  @Field()
   email: string;
+
+  @Field()
+  password: string;
+}
+
+@InputType()
+class LoginData {
+  @Field()
+  username: string;
 
   @Field()
   password: string;
@@ -70,10 +87,36 @@ class UserResolver {
   }
 
   @Mutation((_returns) => User) // TODO add authentication
-  addUser(
+  async addUser(
     @Arg('newUserData') newUserData: NewUserInput,
   ): Promise<UserType | null> {
-    return userService.addNew(newUserData);
+    try {
+      return await userService.addNew(newUserData);
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new UserInputError(e.message, {
+          invalidArgs: newUserData,
+        });
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  @Mutation((_returns) => User)
+  async login(
+    @Arg('loginData') loginData: LoginData,
+  ): Promise<UserType | null> {
+    const user = await userService.findOne(loginData.username);
+    const passwordCorrect =
+      user === null
+        ? false
+        : await bcrypt.compare(loginData.password, user.hashedPassword);
+
+    if (!(user && passwordCorrect)) {
+      throw new Error('Wrong credentials');
+    }
+    return user;
   }
 }
 
