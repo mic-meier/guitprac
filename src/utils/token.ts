@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import config from '../config';
 
-const create = (userId: string) =>
+const create = (userId: string): Promise<string | Error> =>
   new Promise((resolve, reject) => {
     jwt.sign(
       {
@@ -20,8 +20,8 @@ const create = (userId: string) =>
     );
   });
 
-const getDecodedToken = (token: string) =>
-  new Promise((resolve, reject) => {
+const getDecodedToken = (token: string): Promise<unknown> =>
+  new Promise<string>((resolve, reject) => {
     jwt.verify(token, config.JWT_SECRET, (error, decodedToken) => {
       if (error) {
         return reject(error);

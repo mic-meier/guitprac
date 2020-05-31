@@ -18,6 +18,12 @@ const practiceScheduleSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  practiceItems: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'PracticeItem',
+    },
+  ],
 });
 
 const PracticeSchedule = mongoose.model(

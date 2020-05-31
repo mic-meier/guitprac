@@ -1,15 +1,9 @@
-import { buildSchema, Resolver, Query } from 'type-graphql';
+import { buildSchema } from 'type-graphql';
 
-@Resolver()
-class HelloResolver {
-  @Query(() => String)
-  hello(): string {
-    return 'Hello World';
-  }
-}
+import UserResolver from './user-module';
 
 const schema = buildSchema({
-  resolvers: [HelloResolver],
+  resolvers: [UserResolver],
 });
 
 export default schema;
