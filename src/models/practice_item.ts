@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PracticeItemType } from '../types';
+import { PracticeItemType } from '../types/types';
 
 const practiceItemSchema = new mongoose.Schema(
   {

@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import bcrypt from 'bcrypt';
 import User from '../models/user';
-import { UserType, UserInputData } from '../types';
+import { UserType, RegisterData } from '../types/types';
 import { parseString } from '../utils/typeguards';
 
 const findById = async (id: string): Promise<UserType | null> => {
@@ -14,7 +11,7 @@ const findAll = async (): Promise<UserType[] | null> => {
   return await User.find({});
 };
 
-const addNew = async (data: UserInputData): Promise<UserType | null> => {
+const register = async (data: RegisterData): Promise<UserType> => {
   const password = parseString(data.password, 'password');
   const saltrounds = 12;
   const hashedPassword = await bcrypt.hash(password, saltrounds);
@@ -26,20 +23,28 @@ const addNew = async (data: UserInputData): Promise<UserType | null> => {
     hashedPassword,
   });
 
-  const savedUser = await newUser.save();
-
+  try {
+    const savedUser = await newUser.save();
+    return savedUser;
+  } catch (e) {
+    throw new Error(e);
+  }
   // TODO create token and return user with token
-
-  return savedUser;
 };
 
-const findOne = async (username: string): Promise<UserType | null> => {
+const findOneByUsername = async (
+  username: string,
+): Promise<UserType | null> => {
   return await User.findOne({ username: username });
+};
+const findOneByEmail = async (email: string): Promise<UserType | null> => {
+  return await User.findOne({ email: email });
 };
 
 export default {
   findById,
   findAll,
-  addNew,
-  findOne,
+  register,
+  findOneByUsername,
+  findOneByEmail,
 };

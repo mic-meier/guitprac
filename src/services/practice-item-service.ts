@@ -1,5 +1,5 @@
 import PracticeItem from '../models/practice_item';
-import { PracticeItemType, NewPracticeItemData } from 'src/types';
+import { PracticeItemType, NewPracticeItemData } from 'src/types/types';
 
 const findById = async (id: string): Promise<PracticeItemType | null> => {
   return await PracticeItem.findById(id);

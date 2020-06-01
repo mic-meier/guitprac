@@ -7,15 +7,16 @@ import {
   Arg,
   InputType,
   Mutation,
+  Root,
 } from 'type-graphql';
 import bcrypt from 'bcrypt';
 import userService from '../services/user-service';
-import { UserType } from '../types';
-import { UserInputError } from 'apollo-server-express';
+import { UserType } from '../types/types';
+import { IsEmail } from 'class-validator';
 
 @ObjectType()
-class User {
-  @Field((_type) => ID)
+export class User {
+  @Field(() => ID)
   id: string;
 
   @Field()
@@ -28,12 +29,9 @@ class User {
   username: string;
 
   @Field()
-  enail: string;
+  email: string;
 
-  @Field()
-  hashedPassword: string;
-
-  @Field()
+  @Field({ nullable: true })
   lastActive: Date;
 
   @Field()
@@ -55,6 +53,7 @@ class NewUserInput {
   username: string;
 
   @Field()
+  @IsEmail()
   email: string;
 
   @Field()
@@ -70,7 +69,7 @@ class LoginData {
   password: string;
 }
 
-@Resolver(User)
+@Resolver((_of) => User)
 class UserResolver {
   @Query((_returns) => User)
   async user(@Arg('id') id: string): Promise<UserType | null> {
@@ -86,38 +85,21 @@ class UserResolver {
     return userService.findAll();
   }
 
-  @Mutation((_returns) => User) // TODO add authentication
-  async addUser(
-    @Arg('newUserData') newUserData: NewUserInput,
-  ): Promise<UserType | null> {
-    try {
-      return await userService.addNew(newUserData);
-    } catch (e) {
-      if (e instanceof Error) {
-        throw new UserInputError(e.message, {
-          invalidArgs: newUserData,
-        });
-      } else {
-        throw e;
-      }
-    }
-  }
+  //   @Mutation((_returns) => User)
+  //   async login(
+  //     @Arg('loginData') loginData: LoginData,
+  //   ): Promise<UserType | null> {
+  //     const user = await userService.findOne(loginData.username);
+  //     const passwordCorrect =
+  //       user === null
+  //         ? false
+  //         : await bcrypt.compare(loginData.password, user.hashedPassword);
 
-  @Mutation((_returns) => User)
-  async login(
-    @Arg('loginData') loginData: LoginData,
-  ): Promise<UserType | null> {
-    const user = await userService.findOne(loginData.username);
-    const passwordCorrect =
-      user === null
-        ? false
-        : await bcrypt.compare(loginData.password, user.hashedPassword);
-
-    if (!(user && passwordCorrect)) {
-      throw new Error('Wrong credentials');
-    }
-    return user;
-  }
+  //     if (!(user && passwordCorrect)) {
+  //       throw new Error('Wrong credentials');
+  //     }
+  //     return user;
+  //   }
+  // }
 }
-
 export default UserResolver;

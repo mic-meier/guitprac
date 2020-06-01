@@ -15,10 +15,16 @@ const JWT_LIFE_TIME = utils.parseEnvVariable(
   'JWT_LIFE_TIME',
 );
 
+const SESSION_SECRET = utils.parseEnvVariable(
+  process.env.SESSION_SECRET,
+  'SESSION_SECRET',
+);
+
 export default {
   NODE_ENV,
   PORT,
   MONGODB_URI,
   JWT_SECRET,
   JWT_LIFE_TIME,
+  SESSION_SECRET,
 };
