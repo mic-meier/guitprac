@@ -1,6 +1,6 @@
 import { buildSchema } from 'type-graphql';
 
-import UserResolver from './user-module';
+import { UserResolver } from './user/User';
 import { RegisterResolver } from './user/Register';
 import { LoginResolver } from './user/Login';
 import { MeResolver } from './user/Me';

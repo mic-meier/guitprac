@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 import userService from '../../services/user-service';
 import { UserType } from '../../types/User';
-import { User } from '../user-module';
+import { User } from './User';
 import { MyContext } from '../../types/MyContext';
 import { parseString } from '../../utils/typeguards';
 

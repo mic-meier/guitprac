@@ -2,7 +2,7 @@ import { Resolver, Arg, Mutation } from 'type-graphql';
 
 import userService from '../../services/user-service';
 import { UserType } from '../../types/User';
-import { User } from '../user-module';
+import { User } from './User';
 import RegisterInput from './register/RegisterInput';
 
 @Resolver()
