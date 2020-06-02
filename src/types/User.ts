@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface UserType extends mongoose.Document {
+  confirmed: boolean;
   firstName: string;
   lastName: string;
   username: string;
@@ -10,5 +11,5 @@ export interface UserType extends mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   lastActive: Date;
-  confirmed?: boolean;
+  id: string;
 }

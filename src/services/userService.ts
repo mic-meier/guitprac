@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user';
-import { UserType, RegisterData } from '../types/types';
+import { RegisterData } from '../types/types';
+import { UserType } from '../types/User';
 import { parseString } from '../modules/utils/typeguards';
 
 const findById = async (id: string): Promise<UserType | null> => {
@@ -29,7 +30,6 @@ const register = async (data: RegisterData): Promise<UserType> => {
   } catch (e) {
     throw new Error(e);
   }
-  // TODO create token and return user with token
 };
 
 const findOneByUsername = async (
@@ -45,6 +45,13 @@ const setConfirmed = async (id: string): Promise<void> => {
   await User.updateOne({ _id: id }, { confirmed: true });
 };
 
+const changePassword = async (
+  id: string,
+  hashedPassword: string,
+): Promise<UserType | null> => {
+  return await User.findByIdAndUpdate(id, { hashedPassword: hashedPassword });
+};
+
 export default {
   findById,
   findAll,
@@ -52,4 +59,5 @@ export default {
   findOneByUsername,
   findOneByEmail,
   setConfirmed,
+  changePassword,
 };

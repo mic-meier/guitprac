@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
 import url from 'url';
-import app from './app';
-import config from './config';
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import 'reflect-metadata';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+import cors from 'cors';
+import { buildSchema } from 'type-graphql';
 
-const mongoHost = new url.URL(config.MONGODB_URI).host;
+import config from './config';
+import { redis } from './redis';
 
 const startServer = async function () {
+  const mongoHost = new url.URL(config.MONGODB_URI).host;
   const mongooseOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -14,9 +21,47 @@ const startServer = async function () {
     promiseLibrary: global.Promise,
   };
 
+  const schema = await buildSchema({
+    resolvers: [__dirname + '/modules/**/*.ts'],
+  });
+
+  const server = new ApolloServer({
+    schema,
+    context: ({ req }) => ({ req }),
+  });
+
+  const app = express();
+
+  app.use(
+    cors({
+      credentials: true,
+      origin: 'http;//localhost:3000',
+    }),
+  );
+
+  const RedisStore = connectRedis(session);
+
+  app.use(
+    session({
+      store: new RedisStore({
+        client: redis,
+      }),
+      name: 'qid',
+      secret: config.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: config.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 365,
+      },
+    }),
+  );
+
+  server.applyMiddleware({ app, path: '/api' });
+
   try {
     await Promise.all([
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       mongoose.connect(config.MONGODB_URI, mongooseOptions),
       app.listen(config.PORT),
     ]);

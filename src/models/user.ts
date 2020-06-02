@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
-import { UserType } from '../types/types';
+import { UserType } from '../types/User';
 
 const userSchema = new mongoose.Schema(
   {
