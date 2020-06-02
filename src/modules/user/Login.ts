@@ -1,11 +1,11 @@
 import { Resolver, Arg, Mutation, Ctx } from 'type-graphql';
 import bcrypt from 'bcrypt';
 
-import userService from '../../services/user-service';
+import userService from '../../services/userService';
 import { UserType } from '../../types/User';
 import { User } from './User';
 import { MyContext } from '../../types/MyContext';
-import { parseString } from '../../utils/typeguards';
+import { parseString } from '../utils/typeguards';
 
 @Resolver()
 export class LoginResolver {
@@ -24,6 +24,10 @@ export class LoginResolver {
     const valid = await bcrypt.compare(password, user.hashedPassword);
 
     if (!valid) {
+      return null;
+    }
+
+    if (!user.confirmed) {
       return null;
     }
 

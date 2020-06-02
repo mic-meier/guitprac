@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user';
 import { UserType, RegisterData } from '../types/types';
-import { parseString } from '../utils/typeguards';
+import { parseString } from '../modules/utils/typeguards';
 
 const findById = async (id: string): Promise<UserType | null> => {
   return await User.findById(id);
@@ -41,10 +41,15 @@ const findOneByEmail = async (email: string): Promise<UserType | null> => {
   return await User.findOne({ email: email });
 };
 
+const setConfirmed = async (id: string): Promise<void> => {
+  await User.updateOne({ _id: id }, { confirmed: true });
+};
+
 export default {
   findById,
   findAll,
   register,
   findOneByUsername,
   findOneByEmail,
+  setConfirmed,
 };

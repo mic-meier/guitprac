@@ -7,7 +7,7 @@ import {
   ID,
   UseMiddleware,
 } from 'type-graphql';
-import userService from '../../services/user-service';
+import userService from '../../services/userService';
 import { UserType } from '../../types/User';
 import { isAuth } from '../middleware/isAuth';
 

@@ -10,6 +10,7 @@ export interface UserType extends mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   lastActive: Date;
+  id: string;
 }
 export interface RegisterData {
   firstName: string;

@@ -1,7 +1,7 @@
 import { Resolver, Query, Ctx } from 'type-graphql';
 import { User } from './User';
 import { MyContext } from '../../types/MyContext';
-import userService from '../../services/user-service';
+import userService from '../../services/userService';
 import { UserType } from '../../types/User';
 
 @Resolver()

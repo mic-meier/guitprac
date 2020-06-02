@@ -10,4 +10,5 @@ export interface UserType extends mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
   lastActive: Date;
+  confirmed?: boolean;
 }

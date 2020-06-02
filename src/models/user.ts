@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema(
     lastActive: {
       type: Date,
     },
+    confirmed: {
+      type: Boolean,
+      default: false,
+    },
     // practiceSchedules: [
     //   {
     //     type: mongoose.Schema.Types.ObjectId,

@@ -5,7 +5,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-import userService from '../../../services/user-service';
+import userService from '../../../services/userService';
 
 @ValidatorConstraint({ async: true })
 export class IsUsernameAlreadyExistsConstraint
