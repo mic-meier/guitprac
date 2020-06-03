@@ -6,10 +6,10 @@ import 'reflect-metadata';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
-import { buildSchema } from 'type-graphql';
 
 import config from './config';
 import { redis } from './redis';
+import { createSchema } from './utils/createSchema';
 
 const startServer = async function () {
   const mongoHost = new url.URL(config.MONGODB_URI).host;
@@ -21,9 +21,11 @@ const startServer = async function () {
     promiseLibrary: global.Promise,
   };
 
-  const schema = await buildSchema({
-    resolvers: [__dirname + '/modules/**/*.ts'],
-  });
+  // const schema = await buildSchema({
+  //   resolvers: [__dirname + '/modules/**/*.ts'],
+  // });
+
+  const schema = await createSchema();
 
   const server = new ApolloServer({
     schema,

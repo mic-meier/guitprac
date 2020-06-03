@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import nodemailer from 'nodemailer';
 
 // async..await is not allowed in global scope, must use a wrapper
@@ -18,7 +20,7 @@ export async function sendEmail(email: string, url: string): Promise<void> {
   });
 
   // send mail with defined transport object
-  const info: Promise<any> = await transporter.sendMail({
+  const info = await transporter.sendMail({
     from: '"Fred Foo 👻" <foo@example.com>', // sender address
     to: email,
     subject: 'Hello ✔', // Subject line
