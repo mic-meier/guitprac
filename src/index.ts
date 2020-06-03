@@ -27,7 +27,7 @@ const startServer = async function () {
 
   const server = new ApolloServer({
     schema,
-    context: ({ req }) => ({ req }),
+    context: ({ req, res }) => ({ req, res }),
   });
 
   const app = express();
