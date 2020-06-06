@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import utils = require('./modules/utils/typeguards');
+import utils = require('./utils/typeguards');
 
 dotenv.config();
 

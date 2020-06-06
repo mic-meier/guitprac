@@ -21,10 +21,6 @@ const startServer = async function () {
     promiseLibrary: global.Promise,
   };
 
-  // const schema = await buildSchema({
-  //   resolvers: [__dirname + '/modules/**/*.ts'],
-  // });
-
   const schema = await createSchema();
 
   const server = new ApolloServer({

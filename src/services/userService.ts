@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/user';
 import { RegisterData } from '../types/types';
 import { UserType } from '../types/User';
-import { parseString } from '../modules/utils/typeguards';
+import { parseString } from '../utils/typeguards';
 
 const findById = async (id: string): Promise<UserType | null> => {
   return await User.findById(id);

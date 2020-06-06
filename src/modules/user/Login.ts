@@ -4,7 +4,7 @@ import { User } from './User';
 import { MyContext } from '../../types/MyContext';
 import { UserType } from '../../types/User';
 import userService from '../../services/userService';
-import { parseString } from '../utils/typeguards';
+import { parseString } from '../../utils/typeguards';
 
 @Resolver()
 export class LoginResolver {
