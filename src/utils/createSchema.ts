@@ -8,6 +8,7 @@ import { ForgotPasswordResolver } from '../modules/user/ForgotPassword';
 import { LoginResolver } from '../modules/user/Login';
 import { MeResolver } from '../modules/user/Me';
 import { UserResolver } from '../modules/user/User';
+import { CreatePracticeItemResolver } from '../modules/practiceItem/Create';
 
 export const createSchema = async (): Promise<GraphQLSchema> =>
   await buildSchema({
@@ -19,5 +20,6 @@ export const createSchema = async (): Promise<GraphQLSchema> =>
       LoginResolver,
       MeResolver,
       UserResolver,
+      CreatePracticeItemResolver,
     ],
   });

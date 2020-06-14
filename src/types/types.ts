@@ -1,18 +1,3 @@
-import mongoose from 'mongoose';
-
-// export interface UserType extends mongoose.Document {
-//   confirmed: any;
-//   firstName: string;
-//   lastName: string;
-//   username: string;
-//   name: string;
-//   email: string;
-//   hashedPassword: string;
-//   createdAt: Date;
-//   updatedAt: Date;
-//   lastActive: Date;
-//   id: string;
-// }
 export interface RegisterData {
   firstName: string;
   lastName: string;
@@ -21,16 +6,9 @@ export interface RegisterData {
   password: string;
 }
 
-export interface PracticeItemType extends mongoose.Document {
+export interface PracticeItemData {
   title: string;
-  createdBy: string; // TODO must be type USer
-  createdAt: Date;
-  updatedAt: Date;
   category: string;
   duration: number;
+  userId: string;
 }
-
-export type NewPracticeItemDataType = Omit<
-  PracticeItemType,
-  'createdAt' | 'updatedAt'
->;

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PracticeItemType } from '../types/types';
+import { PracticeItemType } from '../types/PracticeItem';
 
 const practiceItemSchema = new mongoose.Schema(
   {
@@ -26,7 +26,9 @@ const practiceItemSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model<PracticeItemType>(
+const PracticeItem = mongoose.model<PracticeItemType>(
   'PracticeItem',
   practiceItemSchema,
 );
+
+export default PracticeItem;
