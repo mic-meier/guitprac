@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
-import faker from 'faker';
 
-import User from '../../../models/user';
-// import PracticeItem from '../../../models/practice_item';
+import { createUser } from '../../../test-utils/createUser';
 import { gCall } from '../../../test-utils/gCall';
 import { testConn } from '../../../test-utils/testConn';
 import { redis } from '../../../redis';
@@ -37,15 +35,7 @@ mutation CreatePracticeItem($data: PracticeItemInput!) {
 `;
 describe('Create', () => {
   it('creates a new practice item if user is logged in', async () => {
-    const dbUser = await User.create({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      hashedPassword: faker.internet.password(),
-    });
-
-    await dbUser.save();
+    const dbUser = await createUser();
 
     const item = {
       title: 'TestItem',

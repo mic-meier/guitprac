@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import faker from 'faker';
 import { v4 } from 'uuid';
 import { confirmUserPrefix } from '../../constants/redisPrefixes';
 
 import User from '../../../models/user';
+import { createUser } from '../../../test-utils/createUser';
 import { gCall } from '../../../test-utils/gCall';
 import { testConn } from '../../../test-utils/testConn';
 import { redis } from '../../../redis';
@@ -33,15 +33,7 @@ describe('ConfirmUser', () => {
   let token: string;
   let dbUser: UserType;
   beforeEach(async () => {
-    dbUser = await User.create({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      hashedPassword: faker.internet.password(),
-    });
-
-    await dbUser.save();
+    dbUser = await createUser(false);
 
     token = v4();
     await redis.set(confirmUserPrefix + token, dbUser.id, 'ex', 60 * 60 * 24); // 1 day expiration

@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
 import faker from 'faker';
-import bcrypt from 'bcrypt';
 
-import User from '../../../models/user';
 import { gCall } from '../../../test-utils/gCall';
 import { testConn } from '../../../test-utils/testConn';
 import { redis } from '../../../redis';
 import { UserType } from 'src/types/User';
+import { createUser } from '../../../test-utils/createUser';
 
 beforeAll(async () => {
   if (redis.status === 'end') {
@@ -64,21 +63,12 @@ mutation Login($username: String!, $password: String!) {
 `;
 
 describe('Login', () => {
-  let password: string;
   let dbUser: UserType;
+  let password: string;
 
   beforeEach(async () => {
     password = faker.internet.password();
-    dbUser = await User.create({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      hashedPassword: await bcrypt.hash(password, 12),
-      confirmed: true,
-    });
-
-    await dbUser.save();
+    dbUser = await createUser(true, password);
   });
 
   it('returns user if username and password are provided, and password is correct', async () => {

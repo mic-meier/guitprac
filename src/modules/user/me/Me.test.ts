@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import faker from 'faker';
 
-import User from '../../../models/user';
+import { createUser } from '../../../test-utils/createUser';
 import { gCall } from '../../../test-utils/gCall';
 import { testConn } from '../../../test-utils/testConn';
 import { redis } from '../../../redis';
@@ -32,15 +31,7 @@ const meQuery = `
 
 describe('Me', () => {
   it('returns user if user id is in context', async () => {
-    const dbUser = await User.create({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      hashedPassword: faker.internet.password(),
-    });
-
-    await dbUser.save();
+    const dbUser = await createUser();
 
     const response = await gCall({
       source: meQuery,
@@ -61,16 +52,6 @@ describe('Me', () => {
   });
 
   it('returns null if user id is not in context', async () => {
-    const dbUser = await User.create({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      hashedPassword: faker.internet.password(),
-    });
-
-    await dbUser.save();
-
     const response = await gCall({
       source: meQuery,
     });
