@@ -87,7 +87,7 @@ describe('Create', () => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    expect(response.errors![0].message).toBe('Not logged in');
+    expect(response.errors![0].message).toBe('not authenticated');
 
     const itemsInDB = await practiceItemService.findAll();
     expect(itemsInDB).toHaveLength(0);

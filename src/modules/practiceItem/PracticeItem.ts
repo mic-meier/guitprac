@@ -16,7 +16,7 @@ export class PracticeItem {
   @Field()
   duration: number;
 
-  @Field()
+  @Field((_type) => User)
   createdBy: User;
 
   @Field()

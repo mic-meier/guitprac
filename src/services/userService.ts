@@ -5,7 +5,7 @@ import { UserType } from '../types/User';
 import { parseString } from '../utils/typeguards';
 
 const findById = async (id: string): Promise<UserType | null> => {
-  return await User.findById(id);
+  return await User.findById(id).populate('practiceItems');
 };
 
 const findAll = async (): Promise<UserType[] | null> => {

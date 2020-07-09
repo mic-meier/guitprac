@@ -33,12 +33,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    // practiceSchedules: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'PracticeShchedule',
-    //   },
-    // ],
+    practiceItems: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PracticeItem',
+      },
+    ],
   },
   { timestamps: true },
 );

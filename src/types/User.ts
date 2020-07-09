@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { PracticeItemType } from './PracticeItem';
 
 export interface UserType extends mongoose.Document {
   confirmed: boolean;
@@ -12,4 +13,5 @@ export interface UserType extends mongoose.Document {
   updatedAt: Date;
   lastActive: Date;
   id: string;
+  practiceItems: PracticeItemType[];
 }
